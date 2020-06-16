@@ -9,7 +9,7 @@
 <body>
     <form id="form1" runat="server">
         <div style="height: 319px">
-            <asp:GridView ID="GridView1" runat="server" BackColor="#993300" BorderColor="#993333" Height="275px" Width="349px">
+            <asp:GridView ID="GridView1" runat="server" BackColor="#993300" BorderColor="#993333" Height="275px" Width="349px" OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
             </asp:GridView>
         </div>
     </form>

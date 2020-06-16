@@ -24,15 +24,20 @@ namespace module5_5Web
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            SqlConnection con = new SqlConnection(dataSrc + database + args);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM school", con);
-            con.Open();
-            SqlDataReader rdr = cmd.ExecuteReader();
-            GridView1.DataSource = rdr;
-            GridView1.DataBind();
-            con.Close();
+            //SqlConnection con = new SqlConnection(dataSrc + database + args);
+            //SqlCommand cmd = new SqlCommand("SELECT * FROM school", con);
+            //con.Open();
+            //SqlDataReader rdr = cmd.ExecuteReader();
+            //GridView1.DataSource = rdr;
+            //GridView1.DataBind();
+            //con.Close();
 
 
+
+        }
+
+        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
         }
     }
