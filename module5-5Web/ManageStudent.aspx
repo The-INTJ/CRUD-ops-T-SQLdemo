@@ -21,7 +21,6 @@
                 <asp:Label ID="Label3" runat="server" BorderColor="#3399FF" BorderStyle="Double" Text="Label" Width="200px"></asp:Label>
                 <asp:DropDownList ID="DropDownList1" runat="server">
                 </asp:DropDownList>
-                <asp:Button ID="Button3" runat="server" Text="Button" />
             </div>
         </div>
     </form>
