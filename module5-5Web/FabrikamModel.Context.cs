@@ -36,7 +36,7 @@ namespace module5_5Web
         public virtual DbSet<student> students { get; set; }
         public virtual DbSet<student_class> student_class { get; set; }
     
-        public virtual ObjectResult<student_class> findStudent(string fName, string lName, string major)
+        public virtual ObjectResult<student> findStudent(string fName, string lName, string major)
         {
             var fNameParameter = fName != null ?
                 new ObjectParameter("fName", fName) :
@@ -50,10 +50,10 @@ namespace module5_5Web
                 new ObjectParameter("major", major) :
                 new ObjectParameter("major", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<student_class>("findStudent", fNameParameter, lNameParameter, majorParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<student>("findStudent", fNameParameter, lNameParameter, majorParameter);
         }
     
-        public virtual ObjectResult<student_class> findStudent(string fName, string lName, string major, MergeOption mergeOption)
+        public virtual ObjectResult<student> findStudent(string fName, string lName, string major, MergeOption mergeOption)
         {
             var fNameParameter = fName != null ?
                 new ObjectParameter("fName", fName) :
@@ -67,7 +67,68 @@ namespace module5_5Web
                 new ObjectParameter("major", major) :
                 new ObjectParameter("major", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<student_class>("findStudent", mergeOption, fNameParameter, lNameParameter, majorParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<student>("findStudent", mergeOption, fNameParameter, lNameParameter, majorParameter);
+        }
+    
+        public virtual ObjectResult<student> getAllStudents()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<student>("getAllStudents");
+        }
+    
+        public virtual ObjectResult<student> getAllStudents(MergeOption mergeOption)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<student>("getAllStudents", mergeOption);
+        }
+    
+        public virtual int insertStudent(string fName, string lName, string major)
+        {
+            var fNameParameter = fName != null ?
+                new ObjectParameter("fName", fName) :
+                new ObjectParameter("fName", typeof(string));
+    
+            var lNameParameter = lName != null ?
+                new ObjectParameter("lName", lName) :
+                new ObjectParameter("lName", typeof(string));
+    
+            var majorParameter = major != null ?
+                new ObjectParameter("major", major) :
+                new ObjectParameter("major", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertStudent", fNameParameter, lNameParameter, majorParameter);
+        }
+    
+        public virtual int deleteStudent(string fName, string lName, string major)
+        {
+            var fNameParameter = fName != null ?
+                new ObjectParameter("fName", fName) :
+                new ObjectParameter("fName", typeof(string));
+    
+            var lNameParameter = lName != null ?
+                new ObjectParameter("lName", lName) :
+                new ObjectParameter("lName", typeof(string));
+    
+            var majorParameter = major != null ?
+                new ObjectParameter("major", major) :
+                new ObjectParameter("major", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("deleteStudent", fNameParameter, lNameParameter, majorParameter);
+        }
+    
+        public virtual int updateStudent(string fName, string lName, string major)
+        {
+            var fNameParameter = fName != null ?
+                new ObjectParameter("fName", fName) :
+                new ObjectParameter("fName", typeof(string));
+    
+            var lNameParameter = lName != null ?
+                new ObjectParameter("lName", lName) :
+                new ObjectParameter("lName", typeof(string));
+    
+            var majorParameter = major != null ?
+                new ObjectParameter("major", major) :
+                new ObjectParameter("major", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("updateStudent", fNameParameter, lNameParameter, majorParameter);
         }
     }
 }

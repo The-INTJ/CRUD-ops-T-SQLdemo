@@ -31,42 +31,10 @@ namespace module5_5Web
             string major = DropDownList1.Text;
 
             var dbContext = new fabrikam2DbContext();
-            var student = dbContext.findStudent(fName, lName, major);
+            var students = dbContext.findStudent(fName, lName, major);
 
-
-            GridView2.DataSource = student;
+            GridView2.DataSource = students.AsEnumerable().ToArray();
             GridView2.DataBind();
-
-
-            //string fName = TextBox1.Text;
-            //string lName = TextBox2.Text;
-            //string major = DropDownList1.Text;
-
-            //string cs = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
-            //SqlConnection con = new SqlConnection(cs);
-            //SqlCommand cmd = new SqlCommand("SELECT * FROM student WHERE firstName=@fName AND " +
-            //                                "lastName = @lName AND " +
-            //                                "major = @major", con);
-            //cmd.Parameters.AddWithValue("@fName", fName);
-            //cmd.Parameters.AddWithValue("@lName", lName);
-            //cmd.Parameters.AddWithValue("@major", major);
-            //con.Open();
-            //GridView2.DataSource = cmd.ExecuteReader();
-            //GridView2.DataBind();
-            //con.Close();
-
-            string cs = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
-            SqlConnection con = new SqlConnection(cs);
-            SqlCommand cmd = new SqlCommand("SELECT * FROM student WHERE firstName=@fName AND " +
-                                            "lastName = @lName AND " +
-                                            "major = @major", con);
-            cmd.Parameters.AddWithValue("@fName", fName);
-            cmd.Parameters.AddWithValue("@lName", lName);
-            cmd.Parameters.AddWithValue("@major", major);
-            con.Open();
-            GridView3.DataSource = cmd.ExecuteReader();
-            GridView3.DataBind();
-            con.Close();
         }
 
         protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
@@ -80,15 +48,9 @@ namespace module5_5Web
             string lName = TextBox2.Text;
             string major = DropDownList1.Text;
 
-            string cs = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
-            SqlConnection con = new SqlConnection(cs);
-            SqlCommand cmd = new SqlCommand("INSERT INTO student(firstName, lastName, major) VALUES (@fName, @lName, @major)", con);
-            cmd.Parameters.AddWithValue("@fName", fName);
-            cmd.Parameters.AddWithValue("@lName", lName);
-            cmd.Parameters.AddWithValue("@major", major);
-            con.Open();
-            cmd.ExecuteNonQuery();
-            con.Close();
+            var dbContext = new fabrikam2DbContext();
+            dbContext.insertStudent(fName, lName, major);
+
             DropDownList1.DataBind();
         }
 
@@ -98,18 +60,9 @@ namespace module5_5Web
             string lName = TextBox2.Text;
             string major = DropDownList1.Text;
 
-            string cs = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
-            SqlConnection con = new SqlConnection(cs);
-            SqlCommand cmd = new SqlCommand("DELETE FROM student " +
-                                            "WHERE firstName=@fName AND " +
-                                            "lastName = @lName AND " +
-                                            "major = @major", con);
-            cmd.Parameters.AddWithValue("@fName", fName);
-            cmd.Parameters.AddWithValue("@lName", lName);
-            cmd.Parameters.AddWithValue("@major", major);
-            con.Open();
-            cmd.ExecuteNonQuery();
-            con.Close();
+            var dbContext = new fabrikam2DbContext();
+            dbContext.deleteStudent(fName, lName, major);
+
             DropDownList1.DataBind();
         }
 
@@ -119,18 +72,9 @@ namespace module5_5Web
             string lName = TextBox2.Text;
             string major = DropDownList1.Text;
 
-            string cs = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
-            SqlConnection con = new SqlConnection(cs);
-            SqlCommand cmd = new SqlCommand("UPDATE student " +
-                                            "SET major = @major " +
-                                            "WHERE firstName=@fName AND " +
-                                            "lastName = @lName", con);
-            cmd.Parameters.AddWithValue("@fName", fName);
-            cmd.Parameters.AddWithValue("@lName", lName);
-            cmd.Parameters.AddWithValue("@major", major);
-            con.Open();
-            cmd.ExecuteNonQuery();
-            con.Close();
+            var dbContext = new fabrikam2DbContext();
+            dbContext.updateStudent(fName, lName, major);
+
             DropDownList1.DataBind();
         }
 

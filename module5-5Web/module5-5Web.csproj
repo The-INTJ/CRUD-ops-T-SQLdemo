@@ -234,6 +234,9 @@
     <Compile Include="findStudent_Result.cs">
       <DependentUpon>FabrikamModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="getAllStudents_Result.cs">
+      <DependentUpon>FabrikamModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

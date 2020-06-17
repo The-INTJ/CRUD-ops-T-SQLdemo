@@ -194,10 +194,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="deleteStudent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="lName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="major" Type="varchar(max)" Mode="In" />
+        </Function>
         <Function Name="findStudent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="fName" Type="varchar" Mode="In" />
-          <Parameter Name="lName" Type="varchar" Mode="In" />
-          <Parameter Name="major" Type="varchar" Mode="In" />
+          <Parameter Name="fName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="lName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="major" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="getAllStudents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="insertStudent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="lName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="major" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="updateStudent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="lName" Type="varchar(max)" Mode="In" />
+          <Parameter Name="major" Type="varchar(max)" Mode="In" />
         </Function>
         <EntityContainer Name="fabrikam2ModelStoreContainer">
           <EntitySet Name="class" EntityType="Self.class" Schema="dbo" store:Type="Tables" />
@@ -456,13 +472,36 @@
             <End Role="class" EntitySet="classes" />
             <End Role="class1" EntitySet="classes" />
           </AssociationSet>
-          <FunctionImport Name="findStudent" EntitySet="student_class" ReturnType="Collection(fabrikam2Model.student_class)">
+          <FunctionImport Name="findStudent" EntitySet="students" ReturnType="Collection(fabrikam2Model.student)">
+            <Parameter Name="fName" Mode="In" Type="String" />
+            <Parameter Name="lName" Mode="In" Type="String" />
+            <Parameter Name="major" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="getAllStudents" EntitySet="students" ReturnType="Collection(fabrikam2Model.student)" />
+          <FunctionImport Name="insertStudent">
+            <Parameter Name="fName" Mode="In" Type="String" />
+            <Parameter Name="lName" Mode="In" Type="String" />
+            <Parameter Name="major" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="deleteStudent">
+            <Parameter Name="fName" Mode="In" Type="String" />
+            <Parameter Name="lName" Mode="In" Type="String" />
+            <Parameter Name="major" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="updateStudent">
             <Parameter Name="fName" Mode="In" Type="String" />
             <Parameter Name="lName" Mode="In" Type="String" />
             <Parameter Name="major" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="findStudent_Result">
+          <Property Type="Int32" Name="student_id" Nullable="false" />
+          <Property Type="String" Name="firstName" Nullable="false" MaxLength="64" />
+          <Property Type="String" Name="lastName" Nullable="false" MaxLength="64" />
+          <Property Type="String" Name="major" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="birthDate" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="getAllStudents_Result">
           <Property Type="Int32" Name="student_id" Nullable="false" />
           <Property Type="String" Name="firstName" Nullable="false" MaxLength="64" />
           <Property Type="String" Name="lastName" Nullable="false" MaxLength="64" />
@@ -564,6 +603,11 @@
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="findStudent" FunctionName="fabrikam2Model.Store.findStudent">
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getAllStudents" FunctionName="fabrikam2Model.Store.getAllStudents">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="insertStudent" FunctionName="fabrikam2Model.Store.insertStudent" />
+          <FunctionImportMapping FunctionImportName="deleteStudent" FunctionName="fabrikam2Model.Store.deleteStudent" />
+          <FunctionImportMapping FunctionImportName="updateStudent" FunctionName="fabrikam2Model.Store.updateStudent" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
