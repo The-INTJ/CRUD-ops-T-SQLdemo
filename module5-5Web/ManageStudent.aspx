@@ -6,7 +6,7 @@
 <head runat="server">
     <title></title>
 </head>
-<body style="height: 541px; width: 1095px; display: flex;">
+<body style="height: 728px; width: 1114px; display: flex;">
     <form id="form1" runat="server">
         <p>
             &nbsp;</p>
@@ -28,6 +28,8 @@
                 </asp:GridView>
                 <asp:Button ID="Button4" runat="server" OnClick="Button4_Click" Text="Update" />
                 <asp:Button ID="Button5" runat="server" OnClick="Button5_Click" Text="Add" />
+                <asp:GridView ID="GridView3" runat="server" OnSelectedIndexChanged="GridView3_SelectedIndexChanged">
+                </asp:GridView>
             </div>
         </div>
     </form>

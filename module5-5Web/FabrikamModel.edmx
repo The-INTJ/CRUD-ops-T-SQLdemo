@@ -1,0 +1,590 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="fabrikam2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="class">
+          <Key>
+            <PropertyRef Name="class_id" />
+          </Key>
+          <Property Name="class_id" Type="int" Nullable="false" />
+          <Property Name="title" Type="char" MaxLength="64" Nullable="false" />
+          <Property Name="description" Type="char" MaxLength="64" />
+          <Property Name="creditHours" Type="int" Nullable="false" />
+          <Property Name="sem_id" Type="int" Nullable="false" />
+          <Property Name="school_id" Type="int" Nullable="false" />
+          <Property Name="prereq_list_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="dates">
+          <Key>
+            <PropertyRef Name="dt_id" />
+          </Key>
+          <Property Name="dt_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="starts" Type="datetime" Nullable="false" />
+          <Property Name="ends" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="prereq">
+          <Key>
+            <PropertyRef Name="prereq_id" />
+            <PropertyRef Name="class_id" />
+          </Key>
+          <Property Name="prereq_id" Type="int" Nullable="false" />
+          <Property Name="class_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="prof_class">
+          <Key>
+            <PropertyRef Name="pc_id" />
+          </Key>
+          <Property Name="pc_id" Type="int" Nullable="false" />
+          <Property Name="prof_id" Type="int" Nullable="false" />
+          <Property Name="class_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="professor">
+          <Key>
+            <PropertyRef Name="prof_id" />
+          </Key>
+          <Property Name="prof_id" Type="int" Nullable="false" />
+          <Property Name="firstName" Type="char" MaxLength="64" Nullable="false" />
+          <Property Name="lastName" Type="char" MaxLength="64" Nullable="false" />
+          <Property Name="hireDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="school">
+          <Key>
+            <PropertyRef Name="school_id" />
+          </Key>
+          <Property Name="school_id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="semester">
+          <Key>
+            <PropertyRef Name="sem_id" />
+          </Key>
+          <Property Name="sem_id" Type="int" Nullable="false" />
+          <Property Name="term" Type="char" MaxLength="64" Nullable="false" />
+          <Property Name="starts" Type="datetime" Nullable="false" />
+          <Property Name="ends" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="student">
+          <Key>
+            <PropertyRef Name="student_id" />
+          </Key>
+          <Property Name="student_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstName" Type="char" MaxLength="64" Nullable="false" />
+          <Property Name="lastName" Type="char" MaxLength="64" Nullable="false" />
+          <Property Name="major" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="birthDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="student_class">
+          <Key>
+            <PropertyRef Name="sc_id" />
+          </Key>
+          <Property Name="sc_id" Type="int" Nullable="false" />
+          <Property Name="class_id" Type="int" Nullable="false" />
+          <Property Name="student_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__class__school_id__787EE5A0">
+          <End Role="school" Type="Self.school" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="class" Type="Self.class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="school">
+              <PropertyRef Name="school_id" />
+            </Principal>
+            <Dependent Role="class">
+              <PropertyRef Name="school_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__class__sem_id__778AC167">
+          <End Role="semester" Type="Self.semester" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="class" Type="Self.class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="semester">
+              <PropertyRef Name="sem_id" />
+            </Principal>
+            <Dependent Role="class">
+              <PropertyRef Name="sem_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__prereq__class_id__7B5B524B">
+          <End Role="class" Type="Self.class" Multiplicity="1" />
+          <End Role="prereq" Type="Self.prereq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="prereq">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__prereq__prereq_i__7C4F7684">
+          <End Role="class" Type="Self.class" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="prereq" Type="Self.prereq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="prereq">
+              <PropertyRef Name="prereq_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__prof_clas__class__00200768">
+          <End Role="class" Type="Self.class" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="prof_class" Type="Self.prof_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="prof_class">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__prof_clas__prof___7F2BE32F">
+          <End Role="professor" Type="Self.professor" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="prof_class" Type="Self.prof_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="professor">
+              <PropertyRef Name="prof_id" />
+            </Principal>
+            <Dependent Role="prof_class">
+              <PropertyRef Name="prof_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__student_c__class__03F0984C">
+          <End Role="class" Type="Self.class" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="student_class" Type="Self.student_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="student_class">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__student_c__stude__02FC7413">
+          <End Role="student" Type="Self.student" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="student_class" Type="Self.student_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="student">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="student_class">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="findStudent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fName" Type="varchar" Mode="In" />
+          <Parameter Name="lName" Type="varchar" Mode="In" />
+          <Parameter Name="major" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="fabrikam2ModelStoreContainer">
+          <EntitySet Name="class" EntityType="Self.class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dates" EntityType="Self.dates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="prereq" EntityType="Self.prereq" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="prof_class" EntityType="Self.prof_class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="professor" EntityType="Self.professor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="school" EntityType="Self.school" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="semester" EntityType="Self.semester" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="student" EntityType="Self.student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="student_class" EntityType="Self.student_class" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__class__school_id__787EE5A0" Association="Self.FK__class__school_id__787EE5A0">
+            <End Role="school" EntitySet="school" />
+            <End Role="class" EntitySet="class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__class__sem_id__778AC167" Association="Self.FK__class__sem_id__778AC167">
+            <End Role="semester" EntitySet="semester" />
+            <End Role="class" EntitySet="class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__prereq__class_id__7B5B524B" Association="Self.FK__prereq__class_id__7B5B524B">
+            <End Role="class" EntitySet="class" />
+            <End Role="prereq" EntitySet="prereq" />
+          </AssociationSet>
+          <AssociationSet Name="FK__prereq__prereq_i__7C4F7684" Association="Self.FK__prereq__prereq_i__7C4F7684">
+            <End Role="class" EntitySet="class" />
+            <End Role="prereq" EntitySet="prereq" />
+          </AssociationSet>
+          <AssociationSet Name="FK__prof_clas__class__00200768" Association="Self.FK__prof_clas__class__00200768">
+            <End Role="class" EntitySet="class" />
+            <End Role="prof_class" EntitySet="prof_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__prof_clas__prof___7F2BE32F" Association="Self.FK__prof_clas__prof___7F2BE32F">
+            <End Role="professor" EntitySet="professor" />
+            <End Role="prof_class" EntitySet="prof_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__student_c__class__03F0984C" Association="Self.FK__student_c__class__03F0984C">
+            <End Role="class" EntitySet="class" />
+            <End Role="student_class" EntitySet="student_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__student_c__stude__02FC7413" Association="Self.FK__student_c__stude__02FC7413">
+            <End Role="student" EntitySet="student" />
+            <End Role="student_class" EntitySet="student_class" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="fabrikam2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="class">
+          <Key>
+            <PropertyRef Name="class_id" />
+          </Key>
+          <Property Name="class_id" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="64" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="64" FixedLength="true" Unicode="false" />
+          <Property Name="creditHours" Type="Int32" Nullable="false" />
+          <Property Name="sem_id" Type="Int32" Nullable="false" />
+          <Property Name="school_id" Type="Int32" Nullable="false" />
+          <Property Name="prereq_list_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="school" Relationship="Self.FK__class__school_id__787EE5A0" FromRole="class" ToRole="school" />
+          <NavigationProperty Name="semester" Relationship="Self.FK__class__sem_id__778AC167" FromRole="class" ToRole="semester" />
+          <NavigationProperty Name="prof_class" Relationship="Self.FK__prof_clas__class__00200768" FromRole="class" ToRole="prof_class" />
+          <NavigationProperty Name="student_class" Relationship="Self.FK__student_c__class__03F0984C" FromRole="class" ToRole="student_class" />
+          <NavigationProperty Name="class1" Relationship="Self.prereq" FromRole="class" ToRole="class1" />
+          <NavigationProperty Name="classes" Relationship="Self.prereq" FromRole="class1" ToRole="class" />
+        </EntityType>
+        <EntityType Name="date">
+          <Key>
+            <PropertyRef Name="dt_id" />
+          </Key>
+          <Property Name="dt_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="starts" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ends" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="prof_class">
+          <Key>
+            <PropertyRef Name="pc_id" />
+          </Key>
+          <Property Name="pc_id" Type="Int32" Nullable="false" />
+          <Property Name="prof_id" Type="Int32" Nullable="false" />
+          <Property Name="class_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="class" Relationship="Self.FK__prof_clas__class__00200768" FromRole="prof_class" ToRole="class" />
+          <NavigationProperty Name="professor" Relationship="Self.FK__prof_clas__prof___7F2BE32F" FromRole="prof_class" ToRole="professor" />
+        </EntityType>
+        <EntityType Name="professor">
+          <Key>
+            <PropertyRef Name="prof_id" />
+          </Key>
+          <Property Name="prof_id" Type="Int32" Nullable="false" />
+          <Property Name="firstName" Type="String" MaxLength="64" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="64" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="hireDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="prof_class" Relationship="Self.FK__prof_clas__prof___7F2BE32F" FromRole="professor" ToRole="prof_class" />
+        </EntityType>
+        <EntityType Name="school">
+          <Key>
+            <PropertyRef Name="school_id" />
+          </Key>
+          <Property Name="school_id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="classes" Relationship="Self.FK__class__school_id__787EE5A0" FromRole="school" ToRole="class" />
+        </EntityType>
+        <EntityType Name="semester">
+          <Key>
+            <PropertyRef Name="sem_id" />
+          </Key>
+          <Property Name="sem_id" Type="Int32" Nullable="false" />
+          <Property Name="term" Type="String" MaxLength="64" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="starts" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ends" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="classes" Relationship="Self.FK__class__sem_id__778AC167" FromRole="semester" ToRole="class" />
+        </EntityType>
+        <EntityType Name="student">
+          <Key>
+            <PropertyRef Name="student_id" />
+          </Key>
+          <Property Name="student_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstName" Type="String" MaxLength="64" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="64" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="major" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="birthDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="student_class" Relationship="Self.FK__student_c__stude__02FC7413" FromRole="student" ToRole="student_class" />
+        </EntityType>
+        <EntityType Name="student_class">
+          <Key>
+            <PropertyRef Name="sc_id" />
+          </Key>
+          <Property Name="sc_id" Type="Int32" Nullable="false" />
+          <Property Name="class_id" Type="Int32" Nullable="false" />
+          <Property Name="student_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="class" Relationship="Self.FK__student_c__class__03F0984C" FromRole="student_class" ToRole="class" />
+          <NavigationProperty Name="student" Relationship="Self.FK__student_c__stude__02FC7413" FromRole="student_class" ToRole="student" />
+        </EntityType>
+        <Association Name="FK__class__school_id__787EE5A0">
+          <End Role="school" Type="Self.school" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="class" Type="Self.class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="school">
+              <PropertyRef Name="school_id" />
+            </Principal>
+            <Dependent Role="class">
+              <PropertyRef Name="school_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__class__sem_id__778AC167">
+          <End Role="semester" Type="Self.semester" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="class" Type="Self.class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="semester">
+              <PropertyRef Name="sem_id" />
+            </Principal>
+            <Dependent Role="class">
+              <PropertyRef Name="sem_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__prof_clas__class__00200768">
+          <End Role="class" Type="Self.class" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="prof_class" Type="Self.prof_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="prof_class">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__student_c__class__03F0984C">
+          <End Role="class" Type="Self.class" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="student_class" Type="Self.student_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="class">
+              <PropertyRef Name="class_id" />
+            </Principal>
+            <Dependent Role="student_class">
+              <PropertyRef Name="class_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__prof_clas__prof___7F2BE32F">
+          <End Role="professor" Type="Self.professor" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="prof_class" Type="Self.prof_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="professor">
+              <PropertyRef Name="prof_id" />
+            </Principal>
+            <Dependent Role="prof_class">
+              <PropertyRef Name="prof_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__student_c__stude__02FC7413">
+          <End Role="student" Type="Self.student" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="student_class" Type="Self.student_class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="student">
+              <PropertyRef Name="student_id" />
+            </Principal>
+            <Dependent Role="student_class">
+              <PropertyRef Name="student_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="prereq">
+          <End Role="class" Type="Self.class" Multiplicity="*" />
+          <End Role="class1" Type="Self.class" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="fabrikam2DbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="classes" EntityType="Self.class" />
+          <EntitySet Name="dates" EntityType="Self.date" />
+          <EntitySet Name="prof_class" EntityType="Self.prof_class" />
+          <EntitySet Name="professors" EntityType="Self.professor" />
+          <EntitySet Name="schools" EntityType="Self.school" />
+          <EntitySet Name="semesters" EntityType="Self.semester" />
+          <EntitySet Name="students" EntityType="Self.student" />
+          <EntitySet Name="student_class" EntityType="Self.student_class" />
+          <AssociationSet Name="FK__class__school_id__787EE5A0" Association="Self.FK__class__school_id__787EE5A0">
+            <End Role="school" EntitySet="schools" />
+            <End Role="class" EntitySet="classes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__class__sem_id__778AC167" Association="Self.FK__class__sem_id__778AC167">
+            <End Role="semester" EntitySet="semesters" />
+            <End Role="class" EntitySet="classes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__prof_clas__class__00200768" Association="Self.FK__prof_clas__class__00200768">
+            <End Role="class" EntitySet="classes" />
+            <End Role="prof_class" EntitySet="prof_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__student_c__class__03F0984C" Association="Self.FK__student_c__class__03F0984C">
+            <End Role="class" EntitySet="classes" />
+            <End Role="student_class" EntitySet="student_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__prof_clas__prof___7F2BE32F" Association="Self.FK__prof_clas__prof___7F2BE32F">
+            <End Role="professor" EntitySet="professors" />
+            <End Role="prof_class" EntitySet="prof_class" />
+          </AssociationSet>
+          <AssociationSet Name="FK__student_c__stude__02FC7413" Association="Self.FK__student_c__stude__02FC7413">
+            <End Role="student" EntitySet="students" />
+            <End Role="student_class" EntitySet="student_class" />
+          </AssociationSet>
+          <AssociationSet Name="prereq" Association="Self.prereq">
+            <End Role="class" EntitySet="classes" />
+            <End Role="class1" EntitySet="classes" />
+          </AssociationSet>
+          <FunctionImport Name="findStudent" EntitySet="student_class" ReturnType="Collection(fabrikam2Model.student_class)">
+            <Parameter Name="fName" Mode="In" Type="String" />
+            <Parameter Name="lName" Mode="In" Type="String" />
+            <Parameter Name="major" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="findStudent_Result">
+          <Property Type="Int32" Name="student_id" Nullable="false" />
+          <Property Type="String" Name="firstName" Nullable="false" MaxLength="64" />
+          <Property Type="String" Name="lastName" Nullable="false" MaxLength="64" />
+          <Property Type="String" Name="major" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="birthDate" Nullable="true" Precision="23" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="fabrikam2ModelStoreContainer" CdmEntityContainer="fabrikam2DbContext">
+          <EntitySetMapping Name="classes">
+            <EntityTypeMapping TypeName="fabrikam2Model.class">
+              <MappingFragment StoreEntitySet="class">
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="creditHours" ColumnName="creditHours" />
+                <ScalarProperty Name="sem_id" ColumnName="sem_id" />
+                <ScalarProperty Name="school_id" ColumnName="school_id" />
+                <ScalarProperty Name="prereq_list_id" ColumnName="prereq_list_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dates">
+            <EntityTypeMapping TypeName="fabrikam2Model.date">
+              <MappingFragment StoreEntitySet="dates">
+                <ScalarProperty Name="dt_id" ColumnName="dt_id" />
+                <ScalarProperty Name="starts" ColumnName="starts" />
+                <ScalarProperty Name="ends" ColumnName="ends" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="prof_class">
+            <EntityTypeMapping TypeName="fabrikam2Model.prof_class">
+              <MappingFragment StoreEntitySet="prof_class">
+                <ScalarProperty Name="pc_id" ColumnName="pc_id" />
+                <ScalarProperty Name="prof_id" ColumnName="prof_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="professors">
+            <EntityTypeMapping TypeName="fabrikam2Model.professor">
+              <MappingFragment StoreEntitySet="professor">
+                <ScalarProperty Name="prof_id" ColumnName="prof_id" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="hireDate" ColumnName="hireDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="schools">
+            <EntityTypeMapping TypeName="fabrikam2Model.school">
+              <MappingFragment StoreEntitySet="school">
+                <ScalarProperty Name="school_id" ColumnName="school_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="semesters">
+            <EntityTypeMapping TypeName="fabrikam2Model.semester">
+              <MappingFragment StoreEntitySet="semester">
+                <ScalarProperty Name="sem_id" ColumnName="sem_id" />
+                <ScalarProperty Name="term" ColumnName="term" />
+                <ScalarProperty Name="starts" ColumnName="starts" />
+                <ScalarProperty Name="ends" ColumnName="ends" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="students">
+            <EntityTypeMapping TypeName="fabrikam2Model.student">
+              <MappingFragment StoreEntitySet="student">
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="major" ColumnName="major" />
+                <ScalarProperty Name="birthDate" ColumnName="birthDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="student_class">
+            <EntityTypeMapping TypeName="fabrikam2Model.student_class">
+              <MappingFragment StoreEntitySet="student_class">
+                <ScalarProperty Name="sc_id" ColumnName="sc_id" />
+                <ScalarProperty Name="class_id" ColumnName="class_id" />
+                <ScalarProperty Name="student_id" ColumnName="student_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="prereq" TypeName="fabrikam2Model.prereq" StoreEntitySet="prereq">
+            <EndProperty Name="class">
+              <ScalarProperty Name="class_id" ColumnName="class_id" />
+            </EndProperty>
+            <EndProperty Name="class1">
+              <ScalarProperty Name="class_id" ColumnName="prereq_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="findStudent" FunctionName="fabrikam2Model.Store.findStudent">
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
